@@ -1,9 +1,8 @@
-import Image from "next/image";
 
 export default function Home() {
   return (
-    <div>
-      Welcome
+    <div className="container mx-auto px-4">
+      Home
     </div>
   );
 }
