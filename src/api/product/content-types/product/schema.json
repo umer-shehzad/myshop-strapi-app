@@ -28,12 +28,12 @@
       "type": "text"
     },
     "image": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "category": {
       "type": "enumeration",
@@ -57,7 +57,7 @@
         "blue",
         "red",
         "black",
-        "camel"
+        "green"
       ],
       "required": true
     },

@@ -890,7 +890,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.SetMinMaxLength<{
         maxLength: 20;
       }>;
-    color: Attribute.Enumeration<['blue', 'red', 'black', 'camel']> &
+    color: Attribute.Enumeration<['blue', 'red', 'black', 'green']> &
       Attribute.Required;
     price: Attribute.Integer & Attribute.Required & Attribute.DefaultTo<0>;
     stock: Attribute.Integer & Attribute.Required & Attribute.DefaultTo<0>;
