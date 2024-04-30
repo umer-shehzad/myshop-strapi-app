@@ -45,9 +45,11 @@ const Page = () => {
                   <div className='hidden bg-blue-800 bg-red-800 bg-black bg-green-800'></div>
                   <button className={'border-2 border-gray-200 ml-1 rounded-full w-6 h-6 focus:outline-none ' + `bg-${product.attributes.color}-800`}></button>
                   <p className="leading-relaxed text-base">{product.attributes.discription}</p>
-                  <button className="my-2 text-white bg-indigo-500 border-0 py-1 md:py-2 px-2 md:px-4 focus:outline-none hover:bg-indigo-600 rounded text-sm">
-                    Buy Now
-                  </button>
+                  <Link href={`/product/${product.attributes.slug}`}>
+                    <button className="my-2 text-white bg-indigo-500 border-0 py-1 md:py-2 px-2 md:px-4 focus:outline-none hover:bg-indigo-600 rounded text-sm">
+                      Buy Now
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))}
