@@ -34,7 +34,7 @@ const Slug = ({ params }) => {
                         <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400" />
                         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 className="text-sm title-font text-gray-500 tracking-widest">MyShop</h2>
-                            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{}</h1>
+                            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.attributes.title}</h1>
                             <div className="flex mb-4">
                                 <span className="flex items-center">
                                     <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
@@ -72,7 +72,7 @@ const Slug = ({ params }) => {
                                     </a>
                                 </span>
                             </div>
-                            <p className="leading-relaxed mb-2">{}</p>
+                            <p className="leading-relaxed mb-2">{product.attributes.discription}</p>
 
                             {/* <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                                 <div className="flex">
@@ -100,7 +100,7 @@ const Slug = ({ params }) => {
                             </div> */}
 
                             <div className="flex">
-                                <span className="title-font font-medium text-2xl text-gray-900">${}</span>
+                                <span className="title-font font-medium text-2xl text-gray-900">${product.attributes.price}</span>
                                 <div className="flex mx-2">
                                     <button onClick={() => addToCart(slug, 1, product.attributes.price)} className="flex ml-auto text-white bg-indigo-500 border-0 mx-2 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Add to cart</button>
                                     <button onClick={() => router.push('/checkout')} className="flex ml-auto text-white bg-indigo-500 border-0 mx-2 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Checkout</button>
