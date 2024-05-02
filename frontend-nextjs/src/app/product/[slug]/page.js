@@ -17,8 +17,6 @@ const Slug = ({ params }) => {
         const fetchProductBySlug = async () => {
             try {
                 const response = await axios.get(`http://localhost:1337/api/products?filters[slug]=${slug}`);
-                // console.log('res', response.data.data[0]);
-                // console.log('title', response.data.data[0].attributes.title);
                 setProduct(response.data.data[0]);
             } catch (error) {
                 console.error('Error fetching product by slug:', error);
