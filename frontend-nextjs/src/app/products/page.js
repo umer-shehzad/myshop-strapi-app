@@ -11,9 +11,9 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:1337/api/products?populate=*');
-        console.log('id', response.data.data[1].id);
-        console.log('attri', response.data.data[1].attributes);
-        console.log('url', `${urlhost}${response.data.data[1].attributes.image.data.attributes.url}`);
+        // console.log('id', response.data.data[1].id);
+        // console.log('attri', response.data.data[1].attributes);
+        // console.log('url', `${urlhost}${response.data.data[1].attributes.image.data.attributes.url}`);
         setProducts(response.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
