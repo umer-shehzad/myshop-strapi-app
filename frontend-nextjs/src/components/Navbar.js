@@ -1,7 +1,10 @@
-import React from 'react'
+"use client"
 import Link from 'next/link'
+import { useCart } from './CartContext'
 
 const Navbar = () => {
+    const { cart } = useCart();
+
     return (
         <>
             <header className="text-gray-600 body-font">
@@ -15,6 +18,7 @@ const Navbar = () => {
                         <Link href="/about" className="mr-5 hover:text-gray-900">About</Link>
                         <Link href="/products" className="mr-5 hover:text-gray-900">Products</Link>
                         <Link href="/contact" className="mr-5 hover:text-gray-900">Contact Us</Link>
+                        <Link href="/checkout" className="mr-5 hover:text-gray-900">Cart({cart.length})</Link>
                     </nav>
                     <button className="my-2 text-white bg-indigo-500 border-0 py-1 md:py-2 px-2 md:px-4 focus:outline-none hover:bg-indigo-600 rounded text-sm">
                         Login

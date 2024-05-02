@@ -1,16 +1,24 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import { useCart } from "@/components/CartContext";
+import { useRouter } from "next/navigation";
 
 const Slug = ({ params }) => {
     const [product, setProduct] = useState([]);
+    const {  cart , addToCart } = useCart();
+    const router = useRouter();
+    
+    const slug = params.slug;
+    
+    console.log('ca', cart);
 
     useEffect(() => {
         const fetchProductBySlug = async () => {
             try {
-                const response = await axios.get(`http://localhost:1337/api/products?filters[slug]=${params.slug}`);
-                console.log('res', response.data.data[0]);
-                console.log('title', response.data.data[0].attributes.title);
+                const response = await axios.get(`http://localhost:1337/api/products?filters[slug]=${slug}`);
+                // console.log('res', response.data.data[0]);
+                // console.log('title', response.data.data[0].attributes.title);
                 setProduct(response.data.data[0]);
             } catch (error) {
                 console.error('Error fetching product by slug:', error);
@@ -28,7 +36,7 @@ const Slug = ({ params }) => {
                         <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400" />
                         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 className="text-sm title-font text-gray-500 tracking-widest">MyShop</h2>
-                            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.attributes.title}</h1>
+                            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{}</h1>
                             <div className="flex mb-4">
                                 <span className="flex items-center">
                                     <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
@@ -66,7 +74,7 @@ const Slug = ({ params }) => {
                                     </a>
                                 </span>
                             </div>
-                            <p className="leading-relaxed mb-2">{product.attributes.discription}</p>
+                            <p className="leading-relaxed mb-2">{}</p>
 
                             {/* <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                                 <div className="flex">
@@ -94,10 +102,10 @@ const Slug = ({ params }) => {
                             </div> */}
 
                             <div className="flex">
-                                <span className="title-font font-medium text-2xl text-gray-900">${product.attributes.price}</span>
+                                <span className="title-font font-medium text-2xl text-gray-900">${}</span>
                                 <div className="flex mx-2">
-                                    <button className="flex ml-auto text-white bg-indigo-500 border-0 mx-2 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Add to cart</button>
-                                    <button className="flex ml-auto text-white bg-indigo-500 border-0 mx-2 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Checkout</button>
+                                    <button onClick={() => addToCart(slug, 1, product.attributes.price)} className="flex ml-auto text-white bg-indigo-500 border-0 mx-2 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Add to cart</button>
+                                    <button onClick={() => router.push('/checkout')} className="flex ml-auto text-white bg-indigo-500 border-0 mx-2 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">Checkout</button>
                                 </div>
                                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                                     <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
