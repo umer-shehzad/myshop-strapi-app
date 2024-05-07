@@ -1,9 +1,15 @@
 "use client"
 import Link from 'next/link'
 import { useCart } from './CartContext'
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
     const { cart } = useCart();
+    const router = useRouter();
+
+    const handleLoginBtn = () => {
+        router.push('/login')
+    }
 
     return (
         <>
@@ -20,9 +26,9 @@ const Navbar = () => {
                         <Link href="/contact" className="mr-5 hover:text-gray-900">Contact Us</Link>
                         <Link href="/checkout" className="mr-5 hover:text-gray-900">Cart({cart.length})</Link>
                     </nav>
-                    <button className="my-2 text-white bg-indigo-500 border-0 py-1 md:py-2 px-2 md:px-4 focus:outline-none hover:bg-indigo-600 rounded text-sm">
-                        Login
-                    </button>
+                        <button onClick={handleLoginBtn} className="my-2 text-white bg-indigo-500 border-0 py-1 md:py-2 px-2 md:px-4 focus:outline-none hover:bg-indigo-600 rounded text-sm">
+                            Login
+                        </button>
                 </div>
             </header>
         </>
