@@ -1,20 +1,25 @@
 "use client"
-import React from 'react'
+import React, { useRef } from 'react'
 import { useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const page = () => {
-
     const [emailIsFocused, setEmailIsFocused] = useState(false);
     const [passwordIsFocused, setPasswordIsFocused] = useState(false);
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+    const [rememberValue, setRememberValue] = useState(false);
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleEmailFocus = () => {
         setEmailIsFocused(true);
     };
 
     const handleEmailBlur = () => {
-        setEmailIsFocused(false);
+        if (emailValue) {
+            setEmailIsFocused(false);
+        }
     };
 
     const handlePasswordFocus = () => {
@@ -22,7 +27,9 @@ const page = () => {
     };
 
     const handlePasswordBlur = () => {
-        setPasswordIsFocused(false);
+        if (passwordValue) {
+            setPasswordIsFocused(false);
+        }
     };
 
     const handleEmailChange = (e) => {
@@ -31,6 +38,27 @@ const page = () => {
 
     const handlePasswordChange = (e) => {
         setPasswordValue(e.target.value);
+    };
+
+    const handleRememberChange = (e) => {
+        setRememberValue(e.target.checked);
+    };
+
+    const handleLoginSubmit = (e) => {
+        e.preventDefault();
+        if (emailValue && passwordValue) {
+            console.log('User', emailValue, passwordValue, rememberValue);
+        }
+        // turn remember value false after submittion
+        if (rememberValue) {
+            const userData = { email: emailValue, password: passwordValue };
+            const userDataString = JSON.stringify(userData);
+            localStorage.setItem('userData', userDataString);
+        }
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
     return (
@@ -51,7 +79,7 @@ const page = () => {
 
                             <div className="text-center">
                                 <h2 className="mt-6 text-3xl font-bold text-gray-900">
-                                    Welcom Back!
+                                    Welcome Back!
                                 </h2>
                                 <p className="mt-2 mb-6 text-sm text-gray-500">Please sign in to your account</p>
                             </div>
@@ -77,7 +105,7 @@ const page = () => {
                                 </p>
                             </div>
 
-                            <form>
+                            <form onSubmit={handleLoginSubmit}>
                                 {/* <!-- Email input --> */}
                                 <div className="relative mb-6">
                                     <input
@@ -85,14 +113,15 @@ const page = () => {
                                         className="peer block min-h-[auto] w-full rounded border bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 dark:autofill:shadow-autofill dark:peer-focus:text-primary [&:not([])]:placeholder:opacity-0 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none active:outline-none"
                                         id="email"
                                         placeholder="Email address"
+                                        value={emailValue}
                                         onFocus={handleEmailFocus}
                                         onBlur={handleEmailBlur}
                                         onChange={handleEmailChange}
+                                        required
                                     />
                                     <label
                                         htmlFor="email"
-                                        className={`pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary  motion-reduce:transition-none dark:text-neutral-400 dark:peer-focus:text-primary ${emailIsFocused || emailValue ? 'bg-white px-2' : ''
-                                            }`}
+                                        className={`absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out ${emailIsFocused ? 'peer-focus:-translate-y-[1.15rem] peer-focus:pt-[0.19rem] peer-focus:scale-[0.8] bg-white px-2' : ''}  ${emailValue ? emailIsFocused ? '' : '-translate-y-[1.15rem] pt-[0.19rem] scale-[0.8] bg-white px-2' : ''}`}
                                     >
                                         Email address
                                     </label>
@@ -101,19 +130,30 @@ const page = () => {
                                 {/* <!-- Password input --> */}
                                 <div className="relative mb-6">
                                     <input
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         className="peer block min-h-[auto] w-full rounded border bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 dark:autofill:shadow-autofill dark:peer-focus:text-primary [&:not([])]:placeholder:opacity-0 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none active:outline-none"
                                         id="password"
+                                        value={passwordValue}
                                         onFocus={handlePasswordFocus}
                                         onBlur={handlePasswordBlur}
                                         onChange={handlePasswordChange}
-                                        placeholder="Password" />
+                                        placeholder="Password"
+                                        required
+                                        minLength={6}
+                                    // pattern=".*[A-Z].*"
+                                    />
                                     <label
                                         htmlFor="password"
-                                        className={`pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%]  truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary motion-reduce:transition-none dark:text-neutral-400 dark:peer-focus:text-primary ${passwordIsFocused || passwordValue ? 'bg-white px-2' : ''
-                                            }`}
+                                        className={`absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out ${passwordIsFocused ? 'peer-focus:-translate-y-[1.15rem] peer-focus:pt-[0.19rem] peer-focus:scale-[0.8] bg-white px-2' : ''}  ${passwordValue ? passwordIsFocused ? '' : '-translate-y-[1.15rem] pt-[0.19rem] scale-[0.8] bg-white px-2' : ''}`}
                                     >Password
                                     </label>
+                                    <button
+                                        type="button"
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none text-xl"
+                                        onClick={togglePasswordVisibility}
+                                    >
+                                        {showPassword ? <FaEyeSlash className=' text-rose-500 ' /> : <FaEye className=' text-primary ' />}
+                                    </button>
                                 </div>
 
                                 {/* <!-- Remember me checkbox --> */}
@@ -122,7 +162,8 @@ const page = () => {
                                         <input
                                             className="relative float-left -ms-[1.5rem] me-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-secondary-500 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-checkbox before:shadow-transparent before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ms-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-black/60 focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-black/60 focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-checkbox checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ms-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent rtl:float-right dark:border-neutral-400 dark:checked:border-primary dark:checked:bg-primary"
                                             type="checkbox"
-                                            value=""
+                                            checked={rememberValue}
+                                            onChange={handleRememberChange}
                                             id="remember-me" />
                                         <label
                                             className="inline-block ps-[0.15rem] hover:cursor-pointer text-gray-700"
@@ -143,8 +184,7 @@ const page = () => {
                                 <button
                                     type="submit"
                                     className="inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-                                    data-twe-ripple-init
-                                    data-twe-ripple-color="light"
+                                // onClick={handleLoginClick}
                                 >
                                     Sign in
                                 </button>
