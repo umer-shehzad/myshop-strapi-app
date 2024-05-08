@@ -2,6 +2,9 @@
 import React, { useRef } from 'react'
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+
+import { UsersData } from '@/users/UsersData';
 
 const page = () => {
     const [emailIsFocused, setEmailIsFocused] = useState(false);
@@ -47,13 +50,25 @@ const page = () => {
     const handleLoginSubmit = (e) => {
         e.preventDefault();
         if (emailValue && passwordValue) {
-            console.log('User', emailValue, passwordValue, rememberValue);
-        }
-        // turn remember value false after submittion
-        if (rememberValue) {
-            const userData = { email: emailValue, password: passwordValue };
-            const userDataString = JSON.stringify(userData);
-            localStorage.setItem('userData', userDataString);
+            const findUser = UsersData.find((element) => {
+                return (element.email === emailValue && element.password === passwordValue)
+            })
+
+            if (findUser) { 
+                // handle route logic here
+                toast.success('User Found');
+
+                // set user into local Storage
+                if (rememberValue) {
+                    const userData = { email: emailValue, password: passwordValue };
+                    const userDataString = JSON.stringify(userData);
+                    localStorage.setItem('userData', userDataString);
+                }
+                setEmailValue('');
+                setPasswordValue('');
+            } else {
+                toast.error('User not found. Try Again')
+            }
         }
     };
 
@@ -184,7 +199,6 @@ const page = () => {
                                 <button
                                     type="submit"
                                     className="inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-                                // onClick={handleLoginClick}
                                 >
                                     Sign in
                                 </button>
