@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 import { UsersData } from '@/users/UsersData';
+import ForgotPasswordModal from '@/components/ForgotPasswordModal';
 
 const page = () => {
     const [emailIsFocused, setEmailIsFocused] = useState(false);
@@ -14,6 +15,8 @@ const page = () => {
     const [rememberValue, setRememberValue] = useState(false);
 
     const [showPassword, setShowPassword] = useState(false);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleEmailFocus = () => {
         setEmailIsFocused(true);
@@ -54,7 +57,7 @@ const page = () => {
                 return (element.email === emailValue && element.password === passwordValue)
             })
 
-            if (findUser) { 
+            if (findUser) {
                 // handle route logic here
                 toast.success('User Found');
 
@@ -74,6 +77,33 @@ const page = () => {
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
+    };
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleModalSubmit = ({ email, newPassword, confirmPassword }) => {
+        if(newPassword === confirmPassword){
+            console.log(newPassword, confirmPassword);
+            // UsersData.map((element) => {
+            //     if (element.email === emailValue) {
+            //         // element.password = newPassword
+            //         console.log('pass', element.password);
+            //         console.log('newpass', newPassword);
+            //     }
+            // })
+            // console.log('Updated UserData', newData);
+        } else {
+            toast.error('Password not matched');
+        }
+
+        // Close the modal after form submission
+        closeModal();
     };
 
     return (
@@ -162,6 +192,7 @@ const page = () => {
                                         className={`absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out ${passwordIsFocused ? 'peer-focus:-translate-y-[1.15rem] peer-focus:pt-[0.19rem] peer-focus:scale-[0.8] bg-white px-2' : ''}  ${passwordValue ? passwordIsFocused ? '' : '-translate-y-[1.15rem] pt-[0.19rem] scale-[0.8] bg-white px-2' : ''}`}
                                     >Password
                                     </label>
+
                                     <button
                                         type="button"
                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none text-xl"
@@ -191,8 +222,10 @@ const page = () => {
                                     <a
                                         href="#!"
                                         className="text-primary focus:outline-none"
+                                        onClick={openModal}
                                     >Forgot password?</a
                                     >
+                                    {isModalOpen && <ForgotPasswordModal isOpen={isModalOpen} onClose={closeModal} onSubmit={handleModalSubmit} />}
                                 </div>
 
                                 {/* <!-- Submit button --> */}
