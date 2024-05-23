@@ -108,8 +108,8 @@ const page = () => {
 
     return (
         <div>
-            <section className="min-h-screen">
-                <div className="container h-full px-6">
+            <section className='min-h-screen'>
+                <div className="container h-full px-6 mx-auto mt-32">
                     <div className="flex h-full flex-wrap items-center justify-center lg:justify-between">
                         {/* <!-- Left column container with background--> */}
                         <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
